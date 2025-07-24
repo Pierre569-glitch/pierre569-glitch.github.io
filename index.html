@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joyeux Anniversaire Lenny ! 🎉</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5dd40 0%, #f39c12 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding: 40px 20px;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hero {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 20px 0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+        }
+
+        .birthday-animation {
+            animation: float 3s ease-in-out infinite;
+            font-size: 6rem;
+            margin: 20px 0;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #f5dd40, #f39c12);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 25px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn.hint-btn {
+            background: linear-gradient(45deg, #ffc107, #ff8f00);
+            padding: 15px 30px;
+            font-size: 1.1rem;
+        }
+
+        .photos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .photo-placeholder {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            border-radius: 15px;
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+            font-size: 3rem;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-placeholder:hover {
+            transform: scale(1.05);
+        }
+
+        .photo-container {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            height: 200px;
+            cursor: pointer;
+        }
+
+        .photo-container:hover {
+            transform: scale(1.05);
+        }
+
+        .photo-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Modal pour affichage plein écran */
+        .photo-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .photo-modal.active {
+            display: flex;
+        }
+
+        .photo-modal-content {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-modal img {
+            max-width: 100vw;
+            max-height: 100vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .photo-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .photo-modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .photo-modal-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 30px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .photo-modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .photo-modal-nav:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .photo-modal-prev {
+            left: 20px;
+        }
+
+        .photo-modal-next {
+            right: 20px;
+        }
+
+        .quiz-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .question-counter {
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #f5dd40, #f39c12);
+            width: 10%;
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .question-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .question-text {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        .answer-input {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .quiz-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px 20px;
+            border: 3px solid #f5dd40;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            text-align: center;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .quiz-input:focus {
+            outline: none;
+            border-color: #f5dd40;
+            background: #fffef8;
+        }
+
+        .result-box {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            color: #2c3e50;
+        }
+
+        .custom-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .popup-content {
+            background: linear-gradient(135deg, #f5dd40 0%, #f39c12 100%);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 400px;
+            margin: 20px;
+            position: relative;
+            animation: popIn 0.4s ease;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.8) translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .popup-emoji {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 0.6s ease;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 60%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            80% { transform: translateY(-10px); }
+        }
+
+        .popup-message {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .popup-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .popup-btn:hover {
+            background: white;
+            color: #f5dd40;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+        }
+
+        .poker-reveal {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            border: 3px solid #e74c3c;
+            animation: pulse 2s infinite;
+        }
+
+        .countdown {
+            font-size: 2rem;
+            color: #e74c3c;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .friends-signature {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .signature-name {
+            font-size: 1.5rem;
+            margin: 10px;
+            color: #ffd700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .poster-placeholder {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            background: linear-gradient(135deg, #f5dd40 0%, #f39c12 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            margin: 20px auto;
+            border: 3px solid #ffd700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        #hintBox {
+            background: #fff3cd !important;
+            border-left: 5px solid #ffc107 !important;
+            display: none;
+        }
+
+        #hintBox h3 {
+            color: #856404 !important;
+        }
+
+        #hintBox p {
+            color: #856404 !important;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.2rem; }
+            .card { padding: 20px; }
+            .quiz-input {
+                font-size: 1.1rem;
+                padding: 12px 15px;
+            }
+            .photos-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Modal pour affichage plein écran des photos -->
+    <div id="photoModal" class="photo-modal">
+        <div class="photo-modal-content">
+            <button class="photo-modal-close" onclick="closePhotoModal()">×</button>
+            <button class="photo-modal-nav photo-modal-prev" onclick="previousPhoto()">‹</button>
+            <button class="photo-modal-nav photo-modal-next" onclick="nextPhoto()">›</button>
+            <img id="modalImage" src="" alt="" />
+            <div class="photo-modal-caption" id="modalCaption"></div>
+        </div>
+    </div>
+
+    <!-- Page 1: Introduction -->
+    <div id="page1" class="page active">
+        <div class="container">
+            <div class="hero">
+                <h1>🎉 SALUT LENNY ! 🎉</h1>
+                <div class="birthday-animation">🎂</div>
+                <p>Pourquoi tu es là sur ce site aujourd'hui ??</p>
+            </div>
+
+            <div class="card">
+                <h2 style="color: #2c3e50; margin-bottom: 30px;">
+                    Hmm... 🤔 Tu te demandes sûrement ce que tu fais ici !
+                </h2>
+                <p style="font-size: 1.3rem; line-height: 1.6; color: #34495e; margin-bottom: 30px;">
+                    Eh bien mon pote, Pierre et moi on t'a préparé quelque chose de spécial pour tes 25 ans ! 
+                    Mais tu vas devoir être patient...
+                </p>
+                <p style="font-size: 1.1rem; color: #7f8c8d; margin-bottom: 30px;">
+                    Clique sur "Suivant" pour découvrir la suite ! 😉
+                </p>
+                <button class="btn" onclick="nextPage()">➡️ Suivant</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-up personnalisé -->
+    <div id="customPopup" class="custom-popup">
+        <div class="popup-content">
+            <div class="popup-emoji" id="popupEmoji">🤔</div>
+            <div class="popup-message" id="popupMessage">Message par défaut</div>
+            <button class="popup-btn" onclick="closePopup()">Ressayer ! 💪</button>
+        </div>
+    </div>
+
+    <!-- Page 2: Photos souvenirs -->
+    <div id="page2" class="page">
+        <div class="container">
+            <div class="hero">
+                <h1>📸 Nos Souvenirs</h1>
+                <p>Avant ton cadeau, petit voyage dans le temps !</p>
+            </div>
+
+            <div class="card">
+                <h2 style="color: #2c3e50; margin-bottom: 30px;">
+                    🎈 Quelques photos de nos meilleurs moments
+                </h2>
+                
+                <div class="photos-grid">
+                    <!-- ⭐ Photo 1: Session poker entre potes -->
+                    <div class="photo-container" onclick="openPhotoModal(0)">
+                        <img src="photos/1.jpg" alt="Premier accident voiture..." style="width: 100%; height: 100%; object-fit: cover;" />
+                        <div class="photo-overlay">
+                            Premier accident voiture...
+                        </div>
+                    </div>
+                    <!-- ⭐ Photo 2: Gaming ensemble -->
+                    <div class="photo-container" onclick="openPhotoModal(1)">
+                        <img src="photos/2.png" alt="Master of Hardcore 2024" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <div class="photo-overlay">
+                            Master of Hardcore 2024
+                        </div>
+                    </div>
+                    <!-- ⭐ Photo 3: Souvenirs entre amis -->
+                    <div class="photo-container" onclick="openPhotoModal(2)">
+                        <img src="photos/3.jpg" alt="Le rire noir" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <div class="photo-overlay">
+                            Le rire noir
+                        </div>
+                    </div>
+                    <!-- ⭐ Photo 4: Voyages et aventures -->
+                    <div class="photo-container" onclick="openPhotoModal(3)">
+                        <img src="photos/4.jpg" alt="Tu es gros !" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <div class="photo-overlay">
+                            Tu es gros !
+                        </div>
+                    </div>
+                    <!-- ⭐ Photo 5: Moments précieux -->
+                    <div class="photo-container" onclick="openPhotoModal(4)">
+                        <img src="photos/5.jpg" alt="Transpiration n°1" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <div class="photo-overlay">
+                            Transpiration n°1
+                        </div>
+                    </div>
+                    <!-- ⭐ Photo 6: Road trip -->
+                    <div class="photo-container" onclick="openPhotoModal(5)">
+                        <img src="photos/6.jpg" alt="Transpiration n°2" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <div class="photo-overlay">
+                            Transpiration n°2
+                        </div>
+                    </div>
+                    <!-- ⭐ Photo 7: Moto adventures -->
+                    <div class="photo-container" onclick="openPhotoModal(6)">
+                        <img src="photos/7.jpg" alt="Tu es nul au poker !!!" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <div class="photo-overlay">
+                            Tu es nul au poker !!!
+                        </div>
+                    </div>
+                    <!-- ⭐ Photo 8: Soirées à Mortain -->
+                    <div class="photo-container" onclick="openPhotoModal(7)">
+                        <img src="photos/8.jpg" alt="Le gros mangeur" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <div class="photo-overlay">
+                            Le gros mangeur
+                        </div>
+                    </div>
+                    <!-- ⭐ Photo 9: Anniversaires -->
+                    <div class="photo-container" onclick="openPhotoModal(8)">
+                        <img src="photos/9.jpg" alt="Sacrée tournoi de poker" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <div class="photo-overlay">
+                            Sacrée tournoi de poker
+                        </div>
+                    </div>
+                    <!-- ⭐ Photo 10: Les trois mousquetaires -->
+                    <div class="photo-container" onclick="openPhotoModal(9)">
+                        <img src="photos/10.jpg" alt="Le curé" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <div class="photo-overlay">
+                            Le curé
+                        </div>
+                    </div>
+                    <!-- ⭐ Photo 11: Pays-Bas adventure -->
+                    <div class="photo-container" onclick="openPhotoModal(10)">
+                        <img src="photos/11.jpg" alt="Le crotte de ney" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <div class="photo-overlay">
+                            Le crotte de ney
+                        </div>
+                    </div>
+                    <!-- ⭐ Photo 12: Festival hardcore -->
+                    <div class="photo-container" onclick="openPhotoModal(11)">
+                        <img src="photos/12.jpg" alt="Failli se faire arnarquer au chicha" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <div class="photo-overlay">
+                            Failli se faire arnarquer au chicha
+                        </div>
+                    </div>
+                    <!-- ⭐ Photo 13: Modern Warfare sessions -->
+                    <div class="photo-container" onclick="openPhotoModal(12)">
+                        <img src="photos/13.jpg" alt="Défis raté !" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <div class="photo-overlay">
+                            Défis raté !
+                        </div>
+                    </div>
+                    <!-- ⭐ Photo 14: Fortnite battles -->
+                    <div class="photo-container" onclick="openPhotoModal(13)">
+                        <img src="photos/14.jpg" alt="Crane enfoncé" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <div class="photo-overlay">
+                            Crane enfoncé
+                        </div>
+                    </div>
+                    <!-- ⭐ Photo 15: Harley passion -->
+                    <div class="photo-container" onclick="openPhotoModal(14)">
+                        <img src="photos/15.jpg" alt="Tu aimes sucer hein !" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <div class="photo-overlay">
+                            Tu aimes sucer hein !
+                        </div>
+                    </div>
+                    <!-- ⭐ Photo 16: Yamaha memories -->
+                    <div class="photo-container" onclick="openPhotoModal(15)">
+                        <img src="photos/16.jpg" alt="Le rêve d'une pute" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <div class="photo-overlay">
+                            Le rêve d'une pute
+                        </div>
+                    </div>
+                </div>
+
+                <p style="font-size: 1.2rem; color: #34495e; margin: 30px 0;">
+                    Que de souvenirs ! 🥰 Maintenant, on passe aux choses sérieuses...
+                </p>
+                
+                <button class="btn" onclick="nextPage()">➡️ Suivant</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 3: Introduction au jeu -->
+    <div id="page3" class="page">
+        <div class="container">
+            <div class="hero">
+                <h1>🎮 Avant de te dévoiler le cadeau...</h1>
+                <p>On va faire un petit jeu !</p>
+            </div>
+
+            <div class="card">
+                <h2 style="color: #2c3e50; margin-bottom: 30px;">
+                    🎯 Un quiz spécial "Nous trois"
+                </h2>
+                <p style="font-size: 1.3rem; line-height: 1.6; color: #34495e; margin-bottom: 30px;">
+                    On a préparé 10 questions simples sur nos souvenirs ensemble. 
+                    Si tu arrives à tout répondre, tu découvriras ton cadeau ! 🎁
+                </p>
+                <p style="font-size: 1.1rem; color: #7f8c8d; margin-bottom: 30px;">
+                    Allez, c'est parti ! Tu connais toutes les réponses ! 😄
+                </p>
+                <button class="btn" onclick="nextPage()">🎯 Commencer le quiz !</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 4: Questions/Réponses -->
+    <div id="page4" class="page">
+        <div class="container">
+            <div class="hero">
+                <h1>🎯 Quiz Spécial Lenny</h1>
+                <p>Réponds aux 10 questions pour gagner !</p>
+            </div>
+
+            <div class="card">
+                <div class="quiz-container">
+                    <div class="question-counter">
+                        <h3>Question <span id="currentQuestion">1</span>/10</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                    </div>
+
+                    <div class="question-box" id="questionBox">
+                        <h2 class="question-text" id="questionText">Quel est le mois d'anniversaire de fabien ?</h2>
+                        
+                        <div class="answer-input">
+                            <input type="text" id="answerInput" class="quiz-input" placeholder="Tape ta réponse ici..." />
+                            <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; align-items: center;">
+                                <button class="btn" onclick="checkAnswer()">✅ Valider</button>
+                                <button class="btn hint-btn" onclick="showHint()">💡 Besoin d'aide ?</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-box" id="resultBox" style="display: none;">
+                        <h3 id="resultText">🎉 Exactement ! Bonne réponse !</h3>
+                        <button class="btn" id="nextBtn" onclick="nextQuestion()">➡️ Question suivante</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="hintBox" class="card" style="display: none;">
+                <h3>💡 Indice :</h3>
+                <p id="hintText">Google est ton ami ! 🎂</p>
+                <button class="btn hint-btn" onclick="document.getElementById('hintBox').style.display = 'none';">👍 Compris !</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 5: Révélation du cadeau -->
+    <div id="page5" class="page">
+        <div class="container">
+            <div class="hero">
+                <h1>🎉 BRAVO LENNY ! 🎉</h1>
+                <p>Tu as trouvé toutes les réponses !</p>
+            </div>
+
+            <div class="poker-reveal">
+                <h1 style="margin-bottom: 20px; text-align: center;">🃏 TON CADEAU 🃏</h1>
+                <h2 style="color: #e74c3c; text-align: center;">MAIN EVENT POKER TOURNAMENT</h2>
+                <h3 style="color: #f39c12; text-align: center;">BARCELONE 🇪🇸</h3>
+                <div class="countdown">📅 21-23 NOVEMBRE 2025</div>
+                <h2 style="color: #27ae60; text-align: center;">💰 100€ BUY-IN 💰</h2>
+            </div>
+
+            <div class="card">
+                <!-- Affiche du tournoi poker Barcelone -->
+                <img src="photos/affiche.jpg" alt="Affiche Tournoi Poker Barcelone" style="width: 100%; max-width: 400px; height: auto; border-radius: 15px; margin: 20px auto; display: block; border: 3px solid #ffd700; box-shadow: 0 10px 30px rgba(0,0,0,0.2);" />
+                
+                <h2 style="color: #2c3e50; margin: 30px 0;">🎁 Pierre et moi t'offrons ça !</h2>
+                <p style="font-size: 1.2rem; line-height: 1.6; color: #34495e; margin-bottom: 20px;">
+                    Un weekend d'exception à Barcelone pour jouer le main event d'un tournoi de poker ! 
+                    100€ de buy-in, de l'adrénaline, du bluff, et peut-être un gros gain ! 🏆
+                </p>
+                
+                <div style="background: #e8f5e8; border-radius: 15px; padding: 20px; margin: 20px 0; color: #2c3e50;">
+                    <h3>🗺️ Au programme :</h3>
+                    <p>✈️ Weekend à Barcelone du 21 au 23 novembre 2025</p>
+                    <p>🃏 Participation au tournoi de poker main event (100€)</p>
+                    <p>🏆 De l'adrénaline, du bluff et des gros gains potentiels !</p>
+                    <p>🥳 Des souvenirs inoubliables entre potes</p>
+                </div>
+
+                <div style="background: #fff3cd; border-radius: 15px; padding: 20px; margin: 20px 0; color: #856404; font-weight: bold;">
+                    <h3>⚡ IMPORTANT ⚡</h3>
+                    <p>Inscris-toi rapidement ! Pierre et moi on est déjà inscrits ! 🚀</p>
+                </div>
+            </div>
+
+            <div class="friends-signature">
+                <h2>JOYEUX ANNIVERSAIRE MON POTE ! 🎂</h2>
+                <div class="signature-name">💙 Pierre 💙</div>
+                <div class="signature-name">💙 Timothée 💙</div>
+                <p style="margin-top: 20px; font-size: 1.2rem;">On a hâte de vivre cette aventure avec toi à Barcelone ! 🃏🇪🇸</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables pour la galerie photo
+        let currentPhotoIndex = 0;
+        const photos = [
+            { src: 'photos/1.jpg', caption: 'Premier accident voiture...' },
+            { src: 'photos/2.png', caption: 'Master of Hardcore 2024' },
+            { src: 'photos/3.jpg', caption: 'Le rire noir' },
+            { src: 'photos/4.jpg', caption: 'Tu es gros !' },
+            { src: 'photos/5.jpg', caption: 'Transpiration n°1' },
+            { src: 'photos/6.jpg', caption: 'Transpiration n°2' },
+            { src: 'photos/7.jpg', caption: 'Tu es nul au poker !!!' },
+            { src: 'photos/8.jpg', caption: 'Le gros mangeur' },
+            { src: 'photos/9.jpg', caption: 'Sacrée tournoi de poker' },
+            { src: 'photos/10.jpg', caption: 'Le curé' },
+            { src: 'photos/11.jpg', caption: 'Le crotte de ney' },
+            { src: 'photos/12.jpg', caption: 'Failli se faire arnarquer au chicha' },
+            { src: 'photos/13.jpg', caption: 'Défis raté !' },
+            { src: 'photos/14.jpg', caption: 'Crane enfoncé' },
+            { src: 'photos/15.jpg', caption: 'Tu aimes sucer hein !' },
+            { src: 'photos/16.jpg', caption: 'Le rêve d\'une pute' }
+        ];
+
+        function openPhotoModal(photoIndex) {
+            currentPhotoIndex = photoIndex;
+            const modal = document.getElementById('photoModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+
+            modalImage.src = photos[photoIndex].src;
+            modalImage.alt = photos[photoIndex].caption;
+            modalCaption.textContent = photos[photoIndex].caption;
+
+            modal.classList.add('active');
+            
+            // Empêcher le scroll du body
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePhotoModal() {
+            const modal = document.getElementById('photoModal');
+            modal.classList.remove('active');
+            
+            // Réactiver le scroll du body
+            document.body.style.overflow = 'auto';
+        }
+
+        function nextPhoto() {
+            currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+            updateModalPhoto();
+        }
+
+        function previousPhoto() {
+            currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
+            updateModalPhoto();
+        }
+
+        function updateModalPhoto() {
+            const modalImage = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+
+            modalImage.src = photos[currentPhotoIndex].src;
+            modalImage.alt = photos[currentPhotoIndex].caption;
+            modalCaption.textContent = photos[currentPhotoIndex].caption;
+        }
+
+        // Fermer la modal avec la touche Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePhotoModal();
+            } else if (e.key === 'ArrowRight') {
+                nextPhoto();
+            } else if (e.key === 'ArrowLeft') {
+                previousPhoto();
+            }
+        });
+
+        // Fermer la modal en cliquant à l'extérieur
+        document.getElementById('photoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePhotoModal();
+            }
+        });
+
+        let currentPageIndex = 1;
+
+        function nextPage() {
+            const currentPage = document.getElementById(`page${currentPageIndex}`);
+            currentPage.classList.remove('active');
+            
+            currentPageIndex++;
+            const nextPage = document.getElementById(`page${currentPageIndex}`);
+            if (nextPage) {
+                nextPage.classList.add('active');
+                
+                // Initialiser le quiz quand on arrive sur la page 4
+                if (currentPageIndex === 4) {
+                    // Initialiser la première question
+                    updateQuestionDisplay();
+                    
+                    // Focus sur l'input pour commencer
+                    setTimeout(() => {
+                        document.getElementById('answerInput').focus();
+                    }, 500);
+                    
+                    // Permettre de valider avec Entrée
+                    document.getElementById('answerInput').addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter' && !this.disabled) {
+                            checkAnswer();
+                        }
+                    });
+                }
+                
+                // Animation confettis sur la page finale
+                if (currentPageIndex === 5) {
+                    setTimeout(() => {
+                        for (let i = 0; i < 100; i++) {
+                            createConfetti();
+                        }
+                    }, 1000);
+                }
+            }
+        }
+
+        // Variables du quiz
+        let currentQuestionIndex = 0;
+        let correctAnswers = 0;
+        
+        const questions = [
+            {
+                question: "Quel est le mois d'anniversaire de fabien ?",
+                answers: ["octobre"],
+                hint: "Google est ton ami ! 🎂"
+            },
+            {
+                question: "Sur quel jeu on s'est connu la première fois ?",
+                answers: ["modern warfare", "modernwarfare", "call of duty", "cod", "mw"],
+                hint: "Un jeu de Call of Duty... 🎮"
+            },
+            {
+                question: "Quelle est la marque de voiture de Pierre ?",
+                answers: ["mercedes", "mercedes-benz"],
+                hint: "Une marque allemande de luxe avec une étoile ! ⭐"
+            },
+            {
+                question: "Quelle était la première moto de Timothée ?",
+                answers: ["yamaha"],
+                hint: "Une marque japonaise qui fait aussi des pianos ! 🏍️"
+            },
+            {
+                question: "Dans quelle ville vivait Timothée en Normandie ?",
+                answers: ["mortain"],
+                hint: "Une petite ville normande qui rime avec 'certain' ! 🏘️"
+            },
+            {
+                question: "Quel était notre premier voyage ensemble ?",
+                answers: ["pays-bas", "paysbas", "pays bas", "hollande", "amsterdam"],
+                hint: "On est allé au festival Hardcore ! 🎵"
+            },
+            {
+                question: "Sur quel jeu tu as connu Pierre la première fois ?",
+                answers: ["fortnite"],
+                hint: "Un jeu d'enfant ! 🏗️"
+            },
+            {
+                question: "C'est quoi la marque de moto préférée de Pierre ?",
+                answers: ["harley", "davidson", "harley davidson", "harley-davidson"],
+                hint: "C'est très bruyant ! 🏍️💨"
+            },
+            {
+                question: "Pourquoi Pierre est chauve ?",
+                answers: ["calvitie"],
+                hint: "Le nom médical de la perte de cheveux ! 👨‍🦲"
+            },
+            {
+                question: "Record de poids de Pierre ?",
+                answers: ["115", "115kg"],
+                hint: "Il aurait pu battre le record ! Plus de 100kg ! ⚖️"
+            }
+        ];
+
+        function showCustomPopup(emoji, message) {
+            document.getElementById('popupEmoji').textContent = emoji;
+            document.getElementById('popupMessage').textContent = message;
+            document.getElementById('customPopup').style.display = 'flex';
+        }
+
+        function closePopup() {
+            document.getElementById('customPopup').style.display = 'none';
+            // Refocus sur l'input après fermeture
+            document.getElementById('answerInput').focus();
+        }
+
+        function showHint() {
+            const hintBox = document.getElementById('hintBox');
+            if (hintBox.style.display === 'none' || hintBox.style.display === '') {
+                hintBox.style.display = 'block';
+                // Petit effet de shake pour attirer l'attention
+                hintBox.style.animation = 'bounce 0.6s ease';
+                setTimeout(() => {
+                    hintBox.style.animation = '';
+                }, 600);
+            } else {
+                hintBox.style.display = 'none';
+            }
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById('answerInput').value.toLowerCase().trim();
+            const currentQ = questions[currentQuestionIndex];
+            
+            if (userAnswer === '') {
+                showCustomPopup('🤔', 'Il faut écrire quelque chose ! Allez, tu connais la réponse !');
+                return;
+            }
+            
+            let isCorrect = false;
+            for (let validAnswer of currentQ.answers) {
+                if (userAnswer === validAnswer) {
+                    isCorrect = true;
+                    break;
+                }
+            }
+            
+            const resultBox = document.getElementById('resultBox');
+            const resultText = document.getElementById('resultText');
+            
+            if (isCorrect) {
+                correctAnswers++;
+                resultText.textContent = "🎉 Exactement ! Bonne réponse !";
+                resultBox.className = 'result-box';
+                resultBox.style.display = 'block';
+                document.getElementById('answerInput').disabled = true;
+                
+                // Masquer la box d'indice
+                document.getElementById('hintBox').style.display = 'none';
+                
+                makeEmojiRain(['🎉', '👏', '✅', '🎯']);
+                
+                // Si c'est la dernière question
+                if (currentQuestionIndex >= questions.length - 1) {
+                    document.getElementById('nextBtn').textContent = '🎁 Découvrir mon cadeau !';
+                    document.getElementById('nextBtn').onclick = () => nextPage();
+                }
+            } else {
+                // Mauvaise réponse - pop-up avec encouragements variés
+                const encouragements = [
+                    { emoji: '🤔', message: 'Pas encore... Réfléchis bien !' },
+                    { emoji: '😅', message: 'Presque ! Continue de chercher !' },
+                    { emoji: '💭', message: 'Hmm, pas tout à fait... Ressaye !' },
+                    { emoji: '🎯', message: 'Tu y es presque ! Une autre idée ?' },
+                    { emoji: '🧠', message: 'Creuse-toi la tête un peu plus !' },
+                    { emoji: '😄', message: 'Allez, tu connais ça ! Ressaye !' },
+                    { emoji: '🤷‍♂️', message: 'Pas la bonne réponse... Continue !' },
+                    { emoji: '💪', message: 'Tu peux le faire ! Ressaye !' }
+                ];
+                
+                const randomEncouragement = encouragements[Math.floor(Math.random() * encouragements.length)];
+                showCustomPopup(randomEncouragement.emoji, randomEncouragement.message);
+                
+                // Vider le champ pour qu'il ressaye
+                document.getElementById('answerInput').value = '';
+            }
+        }
+
+        function updateQuestionDisplay() {
+            // Mettre à jour l'affichage de la question courante
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('progressFill').style.width = ((currentQuestionIndex + 1) / questions.length * 100) + '%';
+            document.getElementById('questionText').textContent = questions[currentQuestionIndex].question;
+            document.getElementById('hintText').textContent = questions[currentQuestionIndex].hint;
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex >= questions.length) {
+                nextPage();
+                return;
+            }
+
+            // Mettre à jour l'affichage
+            updateQuestionDisplay();
+            
+            // Réinitialiser la saisie
+            document.getElementById('answerInput').value = '';
+            document.getElementById('answerInput').disabled = false;
+            document.getElementById('resultBox').style.display = 'none';
+            document.getElementById('hintBox').style.display = 'none';
+            
+            // Focus sur l'input
+            document.getElementById('answerInput').focus();
+        }
+
+        function makeEmojiRain(emojis, count = 15) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const emoji = document.createElement('div');
+                    emoji.style.position = 'fixed';
+                    emoji.style.left = Math.random() * 100 + 'vw';
+                    emoji.style.top = '-10px';
+                    emoji.style.fontSize = '2rem';
+                    emoji.style.zIndex = '9999';
+                    emoji.style.pointerEvents = 'none';
+                    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    
+                    document.body.appendChild(emoji);
+                    
+                    const animation = emoji.animate([
+                        { transform: 'translateY(-10px)', opacity: 1 },
+                        { transform: 'translateY(100vh)', opacity: 0 }
+                    ], {
+                        duration: 3000,
+                        easing: 'linear'
+                    });
+                    
+                    animation.onfinish = () => emoji.remove();
+                }, i * 100);
+            }
+        }
+
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.style.position = 'fixed';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.top = '-10px';
+            confetti.style.width = '10px';
+            confetti.style.height = '10px';
+            confetti.style.backgroundColor = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7'][Math.floor(Math.random() * 5)];
+            confetti.style.borderRadius = '50%';
+            confetti.style.zIndex = '9999';
+            confetti.style.pointerEvents = 'none';
+            
+            document.body.appendChild(confetti);
+            
+            const animation = confetti.animate([
+                { transform: 'translateY(-10px) rotate(0deg)', opacity: 1 },
+                { transform: 'translateY(100vh) rotate(360deg)', opacity: 0 }
+            ], {
+                duration: 3000,
+                easing: 'linear'
+            });
+            
+            animation.onfinish = () => confetti.remove();
+        }
+    </script>
+</body>
+</html>
